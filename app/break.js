@@ -2,6 +2,13 @@ const { ipcRenderer, remote } = require('electron')
 const Utils = remote.require('./utils/utils')
 const HtmlTranslate = require('./utils/htmlTranslate')
 
+const { getGlobal } = require('electron').remote;
+const trackEvent = getGlobal('trackEvent');
+
+const showdown  = require('showdown')
+
+const converter = new showdown.Converter();
+
 document.addEventListener('DOMContentLoaded', event => {
   new HtmlTranslate(document).translate()
 })
@@ -19,9 +26,11 @@ document.getElementById('postpone').addEventListener('click', event =>
 
 ipcRenderer.on('breakIdea', (event, message) => {
   let breakIdea = document.getElementsByClassName('break-idea')[0]
-  breakIdea.innerHTML = message[0]
+  breakIdea.innerHTML = converter.makeHtml(message[0].trim());
   let breakText = document.getElementsByClassName('break-text')[0]
-  breakText.innerHTML = message[1]
+  breakText.innerHTML = converter.makeHtml(message[1].trim());
+
+  trackEvent('Long Bytes', 'View', message[0]);
 })
 
 ipcRenderer.on('progress', (event, started, duration, strictMode, postpone, postponePercent) => {

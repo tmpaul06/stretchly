@@ -13,6 +13,10 @@ const IdeasLoader = require('./utils/ideasLoader')
 const BreaksPlanner = require('./breaksPlanner')
 const { UntilMorning } = require('./utils/untilMorning')
 
+const { trackEvent } = require('./analytics');
+
+global.trackEvent = trackEvent;
+
 let microbreakIdeas
 let breakIdeas
 let breakPlanner
@@ -423,6 +427,7 @@ function startBreak () {
     }
 
     const breakWinLocal = new BrowserWindow(windowOptions)
+
     // breakWinLocal.webContents.openDevTools()
     breakWinLocal.once('ready-to-show', () => {
       breakWinLocal.show()

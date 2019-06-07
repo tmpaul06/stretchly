@@ -2,6 +2,10 @@ const { ipcRenderer, remote } = require('electron')
 const Utils = remote.require('./utils/utils')
 const HtmlTranslate = require('./utils/htmlTranslate')
 
+const showdown  = require('showdown')
+
+const converter = new showdown.Converter();
+
 document.addEventListener('DOMContentLoaded', event => {
   new HtmlTranslate(document).translate()
 })
@@ -19,7 +23,7 @@ document.getElementById('postpone').addEventListener('click', event =>
 
 ipcRenderer.on('microbreakIdea', (event, message) => {
   let microbreakIdea = document.getElementsByClassName('microbreak-idea')[0]
-  microbreakIdea.innerHTML = message
+  microbreakIdea.innerHTML = converter.makeHTML(message)
 })
 
 ipcRenderer.on('progress', (event, started, duration, strictMode, postpone, postponePercent) => {

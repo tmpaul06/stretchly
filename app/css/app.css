@@ -136,7 +136,7 @@ a {
   color: #fff;
   font-size: 18px;
   left: 50%;
-  position: absolute;
+  position: relative;
   text-decoration: none;
   transform: translateX(-50%);
 }
@@ -195,4 +195,12 @@ select  {
 
 .contributor-settings .heading {
   font-size: 28px;
+}
+
+pre {
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #212121;
+  text-align: justify !important;
+  font-size: 14px !important;
 }
